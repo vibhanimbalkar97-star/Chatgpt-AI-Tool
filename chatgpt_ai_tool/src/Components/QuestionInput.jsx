@@ -26,10 +26,10 @@ const askQuestion = async () => {
   return (
    <div className='col-span-4 bg-zinc-900 p-10'>
           <div className='container h-110 overflow-scroll'>
-            <div className='text-white'>
+            <div className='text-zinc-400'>
               <ul>
                 {response && response.map((res, index) => (
-                <li className='text-left p-1'><Answers ans={res} key={index} /></li>
+                <li key={index} className='text-left p-1'><Answers ans={res} totalResult={response.length}  index={index} /></li>
               ))}
               </ul>
               

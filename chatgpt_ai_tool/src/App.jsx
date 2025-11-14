@@ -3,8 +3,6 @@ import QuestionInput from './Components/QuestionInput'
 
 function App() {
   
-
-// AIzaSyDUtF9tOQKynRWW1_JZeHltGhnxvzzRDZ4
   return (
     <>
       <div className='h-screen grid grid-cols-5 text-center'>
