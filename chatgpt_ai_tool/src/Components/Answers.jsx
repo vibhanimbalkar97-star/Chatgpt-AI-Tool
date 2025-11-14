@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { checkHeading, replaceHeadingStars } from './helper';
 
 const Answers = ({ ans, index, totalResult }) => {
-    console.log(ans, index, checkHeading(ans))
 
     // to check star from statement
     const [heading, setHeading] = useState(false);
