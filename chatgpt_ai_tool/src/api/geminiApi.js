@@ -20,14 +20,19 @@ export const generateGeminiResponse = async (promptText) => {
         },
       ],
     });
-    console.log(res)
+  
+    
     // Extract text from the response 
+    let dataString = res?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    dataString = dataString.split("* ");
+    dataString = dataString.map((item) => item.trim());
+    // console.log(dataString)
     return (
-      res?.data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "No response generated."
+      dataString || "No response generated."
     );
   } catch (err) {
     console.error("Gemini API Error:", err.response?.data || err.message);
     throw err;
   }
+  
 };
