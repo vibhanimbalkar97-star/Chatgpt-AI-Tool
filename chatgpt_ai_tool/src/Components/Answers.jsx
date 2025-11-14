@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { checkHeading, replaceHeadingStars } from './helper';
 
-const Answers = ({ ans, index, totalResult }) => {
+const Answers = ({ ans, index, totalResult, type }) => {
 
     // to check star from statement
     const [heading, setHeading] = useState(false);
@@ -22,7 +22,7 @@ const Answers = ({ ans, index, totalResult }) => {
         {
             index==0 && totalResult>1 ? <span className='text-xl block pt-2 text-white'>{answer}</span>
             : heading ? <span className='text-lg block pt-2 text-white'>{answer}</span> 
-            : <span className='pl-5'>{answer}</span>
+            : <span className={type == 'q' ? 'pl-1' : 'pl-5'}>{answer}</span>
         }
            
         </>

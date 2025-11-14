@@ -22,6 +22,7 @@ const QuestionInput = () => {
         { type: 'q', text: input },
         { type: 'a', text: result }
       ]);
+      setInput("");
     } catch (error) {
       setError("Something went wrong while fetching response.")
     }
@@ -30,13 +31,21 @@ const QuestionInput = () => {
 
   return (
     <div className='col-span-4 bg-zinc-900 p-10'>
-      <div className='container h-110 overflow-scroll'>
+      <div className='container h-140 overflow-auto'>
         <div className='text-zinc-400'>
           <ul>
             {
               response.map((res, index) => (
-                res.type == 'q' ? <li key={index + Math.random()} className='text-left p-1'><Answers ans={res.text} totalResult={1} index={index} /></li>
-                  : res.text.map((ansRes, ansIndex) => <li key={ansIndex + Math.random()} className='text-left p-1'><Answers ans={ansRes} totalResult={res.length} index={ansIndex} /></li>)
+               <div key={index + Math.random()} className={res.type=='q' ? 'flex justify-end':''}>
+                 {
+                   res.type == 'q' ? <li key={index + Math.random()} className='text-right p-1 bg-zinc-700 border-8 border-zinc-700 rounded-tl-3xl rounded-br-3xl rounded-bl-3xl  w-fit flex'>
+                    <Answers ans={res.text} totalResult={1} index={index} type={res.type}/>
+                    </li>
+                  : res.text.map((ansRes, ansIndex) => <li key={ansIndex + Math.random()} className='text-left p-1'>
+                    <Answers ans={ansRes} totalResult={res.length} index={ansIndex} type={res.type}
+                    /></li>)
+                 } 
+             </div>
               ))
             }
           </ul>
