@@ -14,7 +14,21 @@ const QuestionInput = () => {
   // error
   const [error, setError] = useState('');
 
+  // maintain history and recent search
+  const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getItem('history')));
+
   const askQuestion = async () => {
+    //maintain recent search
+    if(localStorage.getItem('history')){
+      let history = JSON.parse(localStorage.getItem('history'))
+      history = [input, ...history]
+      localStorage.setItem('history', JSON.stringify(history))
+      setRecentHistory(history)
+    } else {
+      localStorage.setItem('history', JSON.stringify([input]))
+      setRecentHistory([input])
+    }
+
     try {
       const result = await generateGeminiResponse(input);
       setResponse((prev) => [
@@ -30,6 +44,16 @@ const QuestionInput = () => {
 
 
   return (
+    <>
+    <div className='col-span-1 bg-zinc-800'>
+      <ul>
+        {
+          recentHistory && recentHistory.map((history) => (
+            <li>{history}</li>
+          ))
+        }
+      </ul>
+    </div>
     <div className='col-span-4 bg-zinc-900 p-10'>
       <div className='container h-140 overflow-auto'>
         <div className='text-zinc-400'>
@@ -59,6 +83,7 @@ const QuestionInput = () => {
       </div>
 
     </div>
+    </>
   )
 }
 
