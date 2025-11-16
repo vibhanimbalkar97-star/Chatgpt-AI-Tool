@@ -16,13 +16,16 @@ const QuestionInput = () => {
   // maintain history and recent search
   const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getItem('history')));
 
+  const [selectedHistory, setSelectedHistory] = useState('')
+
   const askQuestion = async () => {
-    if(!input) {
-      return false;
-    }
-  
+    const datapayload = input || selectedHistory;
+    
+    if (!datapayload) return;
+
     //maintain recent search
-    if(localStorage.getItem('history')){
+    if(input) {
+      if(localStorage.getItem('history')){
       let history = JSON.parse(localStorage.getItem('history'))
       history = [input, ...history]
       localStorage.setItem('history', JSON.stringify(history))
@@ -31,12 +34,13 @@ const QuestionInput = () => {
       localStorage.setItem('history', JSON.stringify([input]))
       setRecentHistory([input])
     }
-
+    }
+    
     try {
-      const result = await generateGeminiResponse(input);
+      const result = await generateGeminiResponse(datapayload);
       setResponse((prev) => [
         ...prev,
-        { type: 'q', text: input },
+        { type: 'q', text: datapayload },
         { type: 'a', text: result }
       ]);
       setInput("");
@@ -58,6 +62,10 @@ const QuestionInput = () => {
     }
   }
 
+  useEffect(() => {
+  askQuestion();
+  },[selectedHistory])
+
   return (
     <>
     <div className='col-span-1 bg-zinc-800 pt-3'>
@@ -68,7 +76,7 @@ const QuestionInput = () => {
       <ul className='text-left overflow-auto text-sm'>
         {
           recentHistory && recentHistory.map((history, index) => (
-            <li key={index} className='p-1 pl-5 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200 cursor-pointer truncate'>{history}</li>
+            <li onClick={() => setSelectedHistory(history)} key={index} className='p-1 pl-5 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200 cursor-pointer truncate'>{history}</li>
           ))
         }
       </ul>
