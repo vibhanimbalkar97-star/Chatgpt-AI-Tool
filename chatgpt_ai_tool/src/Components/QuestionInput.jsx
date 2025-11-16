@@ -9,7 +9,6 @@ const QuestionInput = () => {
 
   //  API result
   const [response, setResponse] = useState([]);
-  console.log(response)
 
   // error
   const [error, setError] = useState('');
@@ -18,6 +17,10 @@ const QuestionInput = () => {
   const [recentHistory, setRecentHistory] = useState(JSON.parse(localStorage.getItem('history')));
 
   const askQuestion = async () => {
+    if(!input) {
+      return false;
+    }
+  
     //maintain recent search
     if(localStorage.getItem('history')){
       let history = JSON.parse(localStorage.getItem('history'))
@@ -48,6 +51,13 @@ const QuestionInput = () => {
     setRecentHistory([]);
   }
 
+  // submit question on enter button
+  const isEnter = (e) => {
+    if(e.key === 'Enter') {
+      askQuestion();
+    }
+  }
+
   return (
     <>
     <div className='col-span-1 bg-zinc-800 pt-3'>
@@ -57,8 +67,8 @@ const QuestionInput = () => {
       </h1>
       <ul className='text-left overflow-auto text-sm'>
         {
-          recentHistory && recentHistory.map((history) => (
-            <li className='p-1 pl-5 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200 cursor-pointer truncate'>{history}</li>
+          recentHistory && recentHistory.map((history, index) => (
+            <li key={index} className='p-1 pl-5 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200 cursor-pointer truncate'>{history}</li>
           ))
         }
       </ul>
@@ -85,9 +95,13 @@ const QuestionInput = () => {
         </div>
       </div>
       <div className='bg-zinc-800 w-1/2 p-1 pr-5 text-white rounded-4xl m-auto flex border border-zinc-700 h-16'>
-        <input type='text' className='p-3 w-full h-full outline-none' placeholder='Ask me anything'
+        <input 
+         type='text' 
+         className='p-3 w-full h-full outline-none' 
+          placeholder='Ask me anything'
           value={input}
-          onChange={(e) => setInput(e.target.value)} />
+          onChange={(e) => setInput(e.target.value)} 
+          onKeyDown={isEnter}/>
         <button onClick={askQuestion}>Ask</button>
       </div>
 
