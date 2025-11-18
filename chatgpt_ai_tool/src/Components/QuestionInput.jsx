@@ -83,7 +83,7 @@ const QuestionInput = () => {
           </div>
             : null
         }
-        <div ref={scrollToAns} className='container h-110 overflow-auto'>
+        <div ref={scrollToAns} className='container h-110 overflow-auto scrollbar-hide'>
           <div className='text-zinc-400'>
             <ul>
               {
